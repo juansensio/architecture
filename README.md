@@ -6,12 +6,19 @@ After some researching I am building this repo to test ideas and develop best pr
 
 ## Project structure
 
-- Domain: entities, simple models with attributes (Pydantic)
-- Application: Use Cases, business logic
-- Interfaces: interfaces between use cases and external systems
-- Infrastructure: web api, ui, cli, database, ...
-
 ![relations](/pics/relations.png)
+
+- src
+  - Domain: entities, simple models with attributes (Pydantic)
+  - Application: Use Cases, business logic
+  - Interfaces: interfaces between use cases and external systems
+  - tests
+- api
+- ui
+- cli
+- database
+
+![flow](/pics/flow.png)
 
 ## Example
 
