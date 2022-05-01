@@ -78,7 +78,7 @@ Use cases implement the business logic and communicate with the infrastructure v
 
 #### User registration
 
-[application/user/register_user.py](../application/user/register_user.py)
+[application/user/RegisterUser.py](../application/user/RegisterUser.py)
 
 ```python
 from ...domain.user.user import User
