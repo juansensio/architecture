@@ -125,7 +125,7 @@ A simple in-memory database.
 
 ```python
 class MemRepo():
-    def __init__(self, data):
+    def __init__(self, data = []):
         self.data = data
 
     def generate_id(self):
