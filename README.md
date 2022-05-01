@@ -106,6 +106,18 @@ The system is testable at the following levels:
 - integration tests (pytest) for API, cli and databases (slow)
 - end to end test (playwright for web ui) for use cases + API/CLI/UI with database (very slow, good for CI/CD)
 
+## Workflow
+
+When a new feature is added, the following workflow is followed:
+
+1. Create a new branch called `feature/<name_of_the_feature>`.
+2. Implement tests
+3. Implement minimum required code to pass the tests
+4. Refactor
+5. Document
+6. Merge to develop if all tests pass and docs are up to date (solve conflicts)
+7. Merge to main if all tests pass and docs are up to date
+
 ## References
 
 https://www.youtube.com/watch?v=bieO6YOZ4uc
