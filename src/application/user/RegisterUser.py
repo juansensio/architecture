@@ -16,5 +16,5 @@ class RegisterUser():
     def __call__(self, inputs: Inputs) -> Outputs:
         if self.repo.find_one_by_name(inputs.user.username):
             raise UserAlreadyExistsError()
-        result = self.repo.persist(inputs.user.dict())
-        return self.Outputs(user=User(**result))
+        self.repo.persist(inputs.user.dict())
+        return self.Outputs(user=inputs.user)

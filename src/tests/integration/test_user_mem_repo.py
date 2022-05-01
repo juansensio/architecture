@@ -1,7 +1,9 @@
 import pytest
 import uuid
 
-from src.infrastructure.MemRepo import MemRepo
+from src.infrastructure.user.UserMemRepo import UserMemRepo
+from src.application.user.RegisterUser import RegisterUser
+from src.domain.user.errors import UserAlreadyExistsError
 
 
 @pytest.fixture
@@ -29,21 +31,19 @@ def user():
     }
 
 
-def test_data_persists(user_dicts, user):
-    repo = MemRepo(user_dicts)
-    result = repo.persist(user)
-    assert result == user
-    assert len(repo.data) == len(user_dicts)
+def test_user_persists(user_dicts, user):
+    repo = UserMemRepo(user_dicts)
+    register_user = RegisterUser(repo)
+    inputs = RegisterUser.Inputs(user=user)
+    result = register_user(inputs)
+    assert result.user == user
+    assert len(repo.data) == 3
 
 
-def test_find_one_by_name(user_dicts):
-    repo = MemRepo(user_dicts)
+def test_should_fail_if_user_exists(user_dicts):
+    repo = UserMemRepo(user_dicts)
     user = user_dicts[0]
-    result = repo.find_one_by_field('username', user['username'])
-    assert result == user
-
-
-def test_should_return_None_if_not_find_one_by_name(user_dicts, user):
-    repo = MemRepo(user_dicts)
-    result = repo.find_one_by_field('username', user['username'])
-    assert result == None
+    register_user = RegisterUser(repo)
+    inputs = RegisterUser.Inputs(user=user)
+    with pytest.raises(UserAlreadyExistsError):
+        result = register_user(inputs)

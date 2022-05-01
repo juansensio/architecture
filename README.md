@@ -76,17 +76,17 @@ Each release will be developed following TDD principles and documented.
 
 ## Project structure
 
-![relations](/pics/relations.png)
-
-- src
-  - Domain: entities, simple models with attributes (Pydantic)
-  - Application: Use Cases, business logic
-  - Interfaces: interfaces between use cases and external systems
-  - tests
 - api
-- ui
 - cli
-- database
+- src
+  - application: Use Cases, business logic
+  - docs: library documentation
+  - domain: entities, simple models with attributes (Pydantic), errors
+  - infrastructure: repositories
+  - tests
+- ui
+
+![relations](/pics/relations.png)
 
 ![flow](/pics/flow.png)
 

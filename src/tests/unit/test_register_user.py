@@ -2,9 +2,8 @@ import pytest
 from unittest import mock
 import uuid
 
-from src.domain.user.user import User
 from src.domain.user.errors import UserAlreadyExistsError
-from src.application.user.register_user import RegisterUser
+from src.application.user.RegisterUser import RegisterUser
 
 
 @pytest.fixture
