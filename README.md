@@ -56,13 +56,14 @@ Each release will be developed following TDD principles and documented.
 
 - v0
   - v0.1: user registration
-  - v0.2: user login
-  - v0.3: todos creation
-  - v0.4: todos retrieval
-  - v0.5: todos update
-  - v0.6: todos delete
-  - v0.7: firebase users backend
-  - v0.8: firebase todos backend
+  - v0.2: firebase users registration
+  - v0.3: user login
+  - v0.4: todos creation
+  - v0.5: todos retrieval
+  - v0.6: todos update
+  - v0.7: todos delete
+  - v0.8: firebase users backend
+  - v0.9: firebase todos backend
 - v1
   - v1.1: api user routes
   - v1.2: api todos routes
