@@ -44,6 +44,26 @@ class UserMemRepo(MemRepo):
         return super().find_one_by_name('username', name)
 ```
 
+[infrastructure/user/UserFirebaseRepo.py](../infrastructure/user/UserFirebaseRepo.py)
+
+```python
+from ..shared.FirebaseRepo import FirebaseRepo
+from ...domain.user.user import User
+
+
+class UserFirebaseRepo(FirebaseRepo):
+    def __init__(self, name='todos', collection='users'):
+        super().__init__(name)
+        self.collection = collection
+
+    def find_one_by_name(self, name):
+        data = super().find_one_by_name(self.collection, 'username', name)
+        return User(**data) if data else None
+
+    def persist(self, data):
+        return super().persist(self.collection, data)
+```
+
 ### Errors
 
 [domain/user/errors.py](../domain/user/errors.py)
@@ -112,4 +132,42 @@ class MemRepo():
         self.data.append(data)
         return data
 
+```
+
+### Firebase
+
+A Firebase database.
+
+[infrastructure/shared/FirebaseRepo.py](../infrastructure/shared/FirebaseRepo.py)
+
+```python
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+
+def init_db(name):
+    try:
+        app = firebase_admin.get_app(name)
+    except ValueError:
+        cred = credentials.Certificate(
+            "./infrastructure/shared/firebase.json")
+        app = firebase_admin.initialize_app(cred, name=name)
+    finally:
+        return firestore.client(app)
+
+
+class FirebaseRepo():
+    def __init__(self, name="todos"):
+        self.db = init_db(name)
+
+    def find_one_by_name(self, collection, field, name):
+        docs = list(self.db.collection(
+            collection).where(field, "==", name).get())
+        if len(docs) == 0:
+            return None
+        return docs[0].to_dict()
+
+    def persist(self, collection, data):
+        return self.db.collection(collection).add(data)
 ```
