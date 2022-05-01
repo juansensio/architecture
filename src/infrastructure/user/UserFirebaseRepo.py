@@ -8,7 +8,8 @@ class UserFirebaseRepo(FirebaseRepo):
         self.collection = collection
 
     def find_one_by_name(self, name):
-        return super().find_one_by_name(self.collection, 'username', name)
+        data = super().find_one_by_name(self.collection, 'username', name)
+        return User(**data) if data else None
 
     def persist(self, data):
         return super().persist(self.collection, data)

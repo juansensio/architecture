@@ -12,7 +12,7 @@ pytest
 
 ### Model
 
-Pydantic handles field validation, serialization and more...
+Pydantic handles field validation, serialization and more... Tested with unit tests.
 
 [domain/user/user.py](../domain/user/user.py)
 
@@ -26,55 +26,9 @@ class User(BaseModel):
     password: str
 ```
 
-### Repositories
-
-Inherit from model-agnostic repository implementations, implement custom functionality
-
-[infrastructure/user/UserMemRepo.py](../infrastructure/user/UserMemRepo.py)
-
-```python
-from ..shared.MemRepo import MemRepo
-
-
-class UserMemRepo(MemRepo):
-    def __init__(self, data):
-        self.data = data
-
-    def find_one_by_name(self, name):
-        return super().find_one_by_name('username', name)
-```
-
-[infrastructure/user/UserFirebaseRepo.py](../infrastructure/user/UserFirebaseRepo.py)
-
-```python
-from ..shared.FirebaseRepo import FirebaseRepo
-from ...domain.user.user import User
-
-
-class UserFirebaseRepo(FirebaseRepo):
-    def __init__(self, name='todos', collection='users'):
-        super().__init__(name)
-        self.collection = collection
-
-    def find_one_by_name(self, name):
-        return super().find_one_by_name(self.collection, 'username', name)
-
-    def persist(self, data):
-        return super().persist(self.collection, data)
-```
-
-### Errors
-
-[domain/user/errors.py](../domain/user/errors.py)
-
-```python
-class UserAlreadyExistsError(Exception):
-    pass
-```
-
 ### Use cases
 
-Use cases implement the business logic and communicate with the infrastructure via its inputs/outputs interfaces.
+Use cases implement the business logic and communicate with the infrastructure via its inputs/outputs interfaces. Tests with unit tests.
 
 #### User registration
 
@@ -101,6 +55,54 @@ class RegisterUser():
             raise UserAlreadyExistsError()
         result = self.repo.persist(inputs.user.dict())
         return self.Outputs(user=User(**result))
+```
+
+### Errors
+
+[domain/user/errors.py](../domain/user/errors.py)
+
+```python
+class UserAlreadyExistsError(Exception):
+    pass
+```
+
+### Repositories
+
+Inherit from model-agnostic repository implementations, implement custom functionality. Tested with integration tests.
+
+[infrastructure/user/UserMemRepo.py](../infrastructure/user/UserMemRepo.py)
+
+```python
+from ..shared.MemRepo import MemRepo
+
+
+class UserMemRepo(MemRepo):
+    def __init__(self, data):
+        self.data = data
+
+    def find_one_by_name(self, name):
+        data = super().find_one_by_name('username', name)
+        return User(**data) if data else None
+```
+
+[infrastructure/user/UserFirebaseRepo.py](../infrastructure/user/UserFirebaseRepo.py)
+
+```python
+from ..shared.FirebaseRepo import FirebaseRepo
+from ...domain.user.user import User
+
+
+class UserFirebaseRepo(FirebaseRepo):
+    def __init__(self, name='todos', collection='users'):
+        super().__init__(name)
+        self.collection = collection
+
+    def find_one_by_name(self, name):
+        data = super().find_one_by_name(self.collection, 'username', name)
+        return User(**data) if data else None
+
+    def persist(self, data):
+        return super().persist(self.collection, data)
 ```
 
 ## TODOs
