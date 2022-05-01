@@ -23,8 +23,8 @@ And you can interact with it via the interactive documentation at [http://localh
 As you can see, the same file contains the API routes, business logic and database access implementation. Is this bad? The answer is... it depends. If our objective is to demo an idea fast and we will be the only developer, it is a good solution, it serves its purpose. But, what if we want to test it to make sure there are no bugs? or add more features? or change the database? or develop it in a team? Then, it is a very bad solution. As a general rule:
 
 - First, make it work
-- Then, make it well
-- Finally, make it efficient
+- Then, make it right
+- Finally, make it fast
 
 ### A better example
 
