@@ -106,6 +106,14 @@ The system is testable at the following levels:
 - integration tests (pytest) for API, cli and databases (slow)
 - end to end test (playwright for web ui) for use cases + API/CLI/UI with database (very slow, good for CI/CD)
 
+TDD rules:
+
+1. Test first, code later
+2. Add the bare minimum amount of code you need to pass the tests
+3. You shouldn’t have more than one failing test at a time
+4. Write code that passes the test. Then refactor it.
+5. A test should fail the first time you run it. If it doesn’t ask yourself why you are adding it. 6. Never refactor without tests.
+
 ## Workflow
 
 When a new feature is added, the following workflow is followed:
@@ -117,6 +125,8 @@ When a new feature is added, the following workflow is followed:
 5. Document
 6. Merge to develop if all tests pass and docs are up to date (solve conflicts)
 7. Merge to main if all tests pass and docs are up to date
+
+The same goes for when a bug is found.
 
 ## References
 
