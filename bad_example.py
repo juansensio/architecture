@@ -16,6 +16,7 @@ db = {
             "id": '123',
             "content": 'test',
             "createdAt": datetime.now(),
+            "updateAt": datetime.now(),
         }]
     }
 }
@@ -86,6 +87,7 @@ class Todo(BaseModel):
     id: str = uuid.uuid4()
     content: str = ''
     createdAt: datetime = datetime.now()
+    updatedAt: datetime = datetime.now()
 
 # create a new todo item
 
@@ -111,8 +113,9 @@ async def update_todo(todo_id: str, content: str, user: User = Depends(get_curre
     todo_ix = [t['id'] for t in db[user.username]["todos"]].index(todo_id)
     if todo_ix == -1:
         raise HTTPException(status_code=404, detail="todo not found")
-    todo = Todo(**db[user.username]["todos"][todo_ix])
-    todo.content = content
+    data = db[user.username]["todos"][todo_ix]
+    data.update(updatedAt=datetime.now(), content=content)
+    todo = Todo(**data)
     db[user.username]["todos"][todo_ix] = todo.dict()
     return todo
 
