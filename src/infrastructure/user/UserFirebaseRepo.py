@@ -12,4 +12,4 @@ class UserFirebaseRepo(FirebaseRepo):
         return User(**data) if data else None
 
     def persist(self, data):
-        return super().persist(self.collection, data)
+        return super().persist(self.collection, data['uid'], data)

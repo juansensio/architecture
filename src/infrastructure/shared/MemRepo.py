@@ -1,6 +1,12 @@
+import uuid
+
+
 class MemRepo():
     def __init__(self, data):
         self.data = data
+
+    def generate_id(self):
+        return str(uuid.uuid4())
 
     def find_one_by_name(self, field, name):
         try:

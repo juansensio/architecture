@@ -44,6 +44,11 @@ def user():
     }
 
 
+def test_user_generate_id(db):
+    repo = UserFirebaseRepo(name, collection)
+    assert repo.generate_id() != None
+
+
 def test_user_find_one_by_name(db, user):
     repo = UserFirebaseRepo(name, collection)
     assert repo.find_one_by_name(user['username']) == None

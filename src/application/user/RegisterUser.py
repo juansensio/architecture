@@ -8,13 +8,17 @@ class RegisterUser():
         self.repo = repo
 
     class Inputs(BaseModel):
-        user: User
+        username: str
+        password: str
 
     class Outputs(BaseModel):
         user: User
 
     def __call__(self, inputs: Inputs) -> Outputs:
-        if self.repo.find_one_by_name(inputs.user.username):
+        if self.repo.find_one_by_name(inputs.username):
             raise UserAlreadyExistsError()
-        self.repo.persist(inputs.user.dict())
-        return self.Outputs(user=inputs.user)
+        uid = self.repo.generate_id()
+        user = User(uid=uid, username=inputs.username,
+                    password=inputs.password)
+        self.repo.persist(user.dict())
+        return self.Outputs(user=user)

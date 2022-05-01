@@ -17,6 +17,9 @@ class FirebaseRepo():
     def __init__(self, name="todos"):
         self.db = init_db(name)
 
+    def generate_id(self):
+        return self.db.collection(self.collection).document().id
+
     def find_one_by_name(self, collection, field, name):
         docs = list(self.db.collection(
             collection).where(field, "==", name).get())
@@ -24,5 +27,5 @@ class FirebaseRepo():
             return None
         return docs[0].to_dict()
 
-    def persist(self, collection, data):
-        return self.db.collection(collection).add(data)
+    def persist(self, collection, document, data):
+        return self.db.collection(collection).document(document).set(data)
