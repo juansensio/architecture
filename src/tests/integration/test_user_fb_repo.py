@@ -26,7 +26,7 @@ def db():
     # import warnings
     # warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-    db = init_db(name)
+    db = init_db(name, creds='./infrastructure/shared/firebase.json')
     for d in user_dicts:
         db.collection(collection).add(d)
     yield db

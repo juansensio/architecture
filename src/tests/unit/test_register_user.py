@@ -32,5 +32,6 @@ def test_raises_exception_if_user_already_exists(user):
     repo.find_one_by_name.return_value = True
     register_user = RegisterUser(repo)
     inputs = RegisterUser.Inputs(user=user)
-    with pytest.raises(UserAlreadyExistsError):
+    with pytest.raises(UserAlreadyExistsError) as e:
         result = register_user(inputs)
+    assert str(e.value) == 'User already exists'

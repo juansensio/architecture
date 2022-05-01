@@ -3,12 +3,11 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 
-def init_db(name):
+def init_db(name, creds="src/infrastructure/shared/firebase.json"):
     try:
         app = firebase_admin.get_app(name)
     except ValueError:
-        cred = credentials.Certificate(
-            "./infrastructure/shared/firebase.json")
+        cred = credentials.Certificate(creds)
         app = firebase_admin.initialize_app(cred, name=name)
     finally:
         return firestore.client(app)
