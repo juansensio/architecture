@@ -26,7 +26,13 @@ As you can see, the same file contains the API routes, business logic and databa
 - Then, make it well
 - Finally, make it efficient
 
-### Backlog
+### A better example
+
+First, let's structure our project a little bit.
+
+#### Backlog
+
+List of high level features that we desire for our app:
 
 - Users must be able to register with username and password
 - Users must be able to login in order to use the protected user-level functionality
@@ -35,18 +41,38 @@ As you can see, the same file contains the API routes, business logic and databa
 - User must be able to interact with the library via a CLI
 - User must be able to interact with the library via a web UI
 
-### Roadmap
+#### Roadmap
+
+Main features included in major releases:
 
 - v0: Core python library that allows for user registration and manage TODOs CRUD.
 - v1: API
 - v2: CLI
 - v3: web UI
 
-The system is testable at the following levels:
+#### Sprints
 
-- unit tests (pytest) for use cases (fast, good for TDD)
-- integration tests (pytest) for API, cli and databases (slow)
-- end to end test (playwright for web ui) for use cases + API/CLI/UI with database (very slow, good for CI/CD)
+Each release will be developed following TDD principles and documented.
+
+- v0
+  - v0.1: user registration
+  - v0.2: user login
+  - v0.3: todos creation
+  - v0.4: todos retrieval
+  - v0.5: todos update
+  - v0.6: todos delete
+  - v0.7: firebase users backend
+  - v0.8: firebase todos backend
+- v1
+  - v1.1: api user routes
+  - v1.2: api todos routes
+- v2
+  - v2.1: cli user functions
+  - v2.2: cli user functions
+- v3
+  - v3.1: ui user registration
+  - v3.2: ui user login
+  - v3.3: ui todos CRUD
 
 ## Project structure
 
@@ -64,8 +90,6 @@ The system is testable at the following levels:
 
 ![flow](/pics/flow.png)
 
-## Example
-
 ## Git
 
 The project is based on the following structure of branches:
@@ -73,6 +97,14 @@ The project is based on the following structure of branches:
 - main: production code
 - develop: development version to be merged to main
 - features: multiple branches for individual features to be added on develop.
+
+## Testing
+
+The system is testable at the following levels:
+
+- unit tests (pytest) for use cases (fast, good for TDD)
+- integration tests (pytest) for API, cli and databases (slow)
+- end to end test (playwright for web ui) for use cases + API/CLI/UI with database (very slow, good for CI/CD)
 
 ## References
 
