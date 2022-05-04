@@ -44,6 +44,7 @@ def user():
     }
 
 
+# @pytest.mark.filterwarnings("ignore:Call to deprecated")
 def test_user_generate_id(db):
     repo = UserFirebaseRepo(name, collection)
     assert repo.generate_id() != None

@@ -40,7 +40,41 @@ from ...domain.user.errors import UserAlreadyExistsError
 from pydantic import BaseModel
 
 
+
 class RegisterUser():
+    def __init__(self, repo):
+        self.repo = repo
+
+    class Inputs(BaseModel):
+        username: str
+        password: str
+
+    class Outputs(BaseModel):
+        uid: str
+        username: str
+
+    def __call__(self, inputs: Inputs) -> Outputs:
+        if self.repo.find_one_by_name(inputs.username):
+            raise UserAlreadyExistsError()
+        uid = self.repo.generate_id()
+        user = User(uid=uid, username=inputs.username,
+                    password=inputs.password)
+        self.repo.persist(user.dict())
+        return self.Outputs(uid=user.uid, username=user.username)
+
+```
+
+#### User retrieve
+
+[application/user/RetrieveUser.py](../application/user/RetrieveUser.py)
+
+```python
+from ...domain.user.user import User
+from ...domain.user.errors import UserAlreadyExistsError
+from pydantic import BaseModel
+
+
+class RetrieveUser():
     def __init__(self, repo):
         self.repo = repo
 
@@ -52,12 +86,11 @@ class RegisterUser():
         user: User
 
     def __call__(self, inputs: Inputs) -> Outputs:
-        if self.repo.find_one_by_name(inputs.username):
-            raise UserAlreadyExistsError()
-        uid = self.repo.generate_id()
-        user = User(uid=uid, username=inputs.username,
-                    password=inputs.password)
-        self.repo.persist(user.dict())
+        user = self.repo.find_one_by_name(inputs.username)
+        if not user:
+            raise UserNotFoundError()
+        if user.password != inputs.password:
+            raise InvalidCredentialsError()
         return self.Outputs(user=user)
 ```
 
@@ -70,6 +103,19 @@ class UserAlreadyExistsError(Exception):
     def __init__(self):
         self.message = "User already exists"
         super().__init__(self.message)
+
+
+class UserNotFoundError(Exception):
+    def __init__(self):
+        self.message = "User not found"
+        super().__init__(self.message)
+
+
+class InvalidCredentialsError(Exception):
+    def __init__(self):
+        self.message = "Invalid credentials"
+        super().__init__(self.message)
+
 ```
 
 ### Repositories
