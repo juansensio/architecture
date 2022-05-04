@@ -25,9 +25,8 @@ def test_register_user(user):
     result = register_user(inputs)
     repo.persist.assert_called_once()
     repo.find_one_by_name.assert_called_once_with(user['username'])
-    assert result.user.username == user['username']
-    assert result.user.password == user['password']
-    assert result.user.uid == uid
+    assert result.username == user['username']
+    assert result.uid == uid
 
 
 def test_raises_exception_if_user_already_exists(user):

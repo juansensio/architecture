@@ -12,7 +12,8 @@ class RegisterUser():
         password: str
 
     class Outputs(BaseModel):
-        user: User
+        uid: str
+        username: str
 
     def __call__(self, inputs: Inputs) -> Outputs:
         if self.repo.find_one_by_name(inputs.username):
@@ -21,4 +22,4 @@ class RegisterUser():
         user = User(uid=uid, username=inputs.username,
                     password=inputs.password)
         self.repo.persist(user.dict())
-        return self.Outputs(user=user)
+        return self.Outputs(uid=user.uid, username=user.username)
