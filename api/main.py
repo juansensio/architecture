@@ -4,8 +4,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from src.application.user.RegisterUser import RegisterUser
 from src.application.user.RetrieveUser import RetrieveUser
 
-# from src.infrastructure.user.UserFirebaseRepo import UserFirebaseRepo as UserRepository
-from src.infrastructure.user.UserMemRepo import UserMemRepo as UserRepository
+from src.infrastructure.user.UserFirebaseRepo import UserFirebaseRepo as UserRepository
+# from src.infrastructure.user.UserMemRepo import UserMemRepo as UserRepository
 
 app = FastAPI()
 
