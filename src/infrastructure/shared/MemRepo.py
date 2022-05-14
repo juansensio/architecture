@@ -17,3 +17,6 @@ class MemRepo():
 
     def persist(self, data):
         return self.data.append(data)
+
+    def exists(self, name, field='uid'):
+        return self.find_one_by_name(name, field) != None

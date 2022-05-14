@@ -10,7 +10,7 @@ client = TestClient(app)
 @pytest.fixture
 def user():
     return {
-        'username': 'test',
+        'username': 'test_create',
         'password': 'test'
     }
 
@@ -20,12 +20,14 @@ def test_register_user(user):
     response = client.get(
         '/users/register', params={'username': user['username'], 'password': user['password']})
     assert response.status_code == 200
-    assert response.json()['username'] == user['username']
+    data = response.json()
+    uid = data['uid']
+    assert data['username'] == user['username']
     # user login
     response = client.post(
         '/token', data={'username': user['username'], 'password': user['password']})
     assert response.status_code == 200
-    assert response.json()['access_token'] == user['username']
+    assert response.json()['access_token'] == uid
     # should fail if user exists
     response = client.get(
         '/users/register', params={'username': user['username'], 'password': user['password']})

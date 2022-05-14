@@ -20,7 +20,8 @@ def user():
     return User(
         uid='test',
         username='test',
-        password='test'
+        password='test',
+        todos=[]
     )
 
 

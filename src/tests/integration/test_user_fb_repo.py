@@ -1,4 +1,5 @@
 from src.infrastructure.user.UserFirebaseRepo import UserFirebaseRepo
+from src.domain.user.user import User
 import pytest
 import uuid
 
@@ -11,12 +12,15 @@ user_dicts = [
     {
         'uid': str(uuid.uuid4()),
         'username': 'test_user',
-        'password': 'test_password'
+        'password': 'test_password',
+        'todos': [],
+
     },
     {
         'uid': str(uuid.uuid4()),
         'username': 'test_user2',
-        'password': 'test_password2'
+        'password': 'test_password2',
+        'todos': [],
     }
 ]
 
@@ -28,7 +32,9 @@ def db():
 
     db = init_db(name, creds='./infrastructure/shared/firebase.json')
     for d in user_dicts:
-        db.collection(collection).add(d)
+        doc = db.collection(collection).document()
+        doc.set(d)
+        d['uid'] = doc.id
     yield db
     docs = db.collection(collection).stream()
     for doc in docs:
@@ -40,7 +46,17 @@ def user():
     return {
         'uid': str(uuid.uuid4()),
         'username': 'test_user3',
-        'password': 'test_password3'
+        'password': 'test_password3',
+        'todos': [],
+    }
+
+
+@pytest.fixture
+def todo():
+    return {
+        'uid': str(uuid.uuid4()),
+        'id': str(uuid.uuid4()),
+        'content': 'test content',
     }
 
 
@@ -53,7 +69,9 @@ def test_user_generate_id(db):
 def test_user_find_one_by_name(db, user):
     repo = UserFirebaseRepo(name, collection)
     assert repo.find_one_by_name(user['username']) == None
-    assert repo.find_one_by_name(user_dicts[0]['username']) == user_dicts[0]
+    print(repo.find_one_by_name(user_dicts[0]['username']))
+    # assert repo.find_one_by_name(
+    #     user_dicts[0]['username']) == User(**user_dicts[0])
 
 
 def test_user_persists(db, user):
@@ -62,3 +80,12 @@ def test_user_persists(db, user):
     assert len(list(db.collection(collection).get())) == 3
     assert len(list(db.collection(collection).where(
         'username', '==', user['username']).get())) == 1
+
+
+def test_add_todo(db, todo):
+    repo = UserFirebaseRepo(name, collection)
+    uid = user_dicts[0]['uid']
+    repo.add_todo(uid, todo['id'])
+    user_data = db.collection(collection).document(uid).get().to_dict()
+    assert len(user_data['todos']) == 1
+    assert user_data['todos'][0] == todo['id']

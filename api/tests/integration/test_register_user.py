@@ -20,20 +20,22 @@ def user():
     return User(
         uid='test',
         username='test',
-        password='test'
+        password='test',
+        todos=[]
     )
 
 
 @patch.object(RegisterUser, '__call__')
 def test_register_user(mock_register_user, url, user):
     mock_register_user.return_value = RegisterUser.Outputs(
-        uid=user.uid, username=user.username)
+        uid=user.uid, username=user.username, todos=user.todos)
     response = client.get(
         url, params={'username': user.username, 'password': user.password})
     assert response.status_code == 200
     data = response.json()
     assert data['uid'] == user.uid
     assert data['username'] == user.username
+    assert data['todos'] == user.todos
 
 
 @patch.object(RegisterUser, '__call__')

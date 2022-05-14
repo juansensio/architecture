@@ -13,3 +13,6 @@ class UserFirebaseRepo(FirebaseRepo):
 
     def persist(self, data):
         return super().persist(self.collection, data['uid'], data)
+
+    def add_todo(self, uid, todo_id):
+        return super().add_item(self.collection, uid, 'todos', todo_id)

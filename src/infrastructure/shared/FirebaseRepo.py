@@ -29,3 +29,8 @@ class FirebaseRepo():
 
     def persist(self, collection, document, data):
         return self.db.collection(collection).document(document).set(data)
+
+    def add_item(self, collection, document, field, item):
+        return self.db.collection(collection).document(document).update({
+            field: firestore.ArrayUnion([item])
+        })

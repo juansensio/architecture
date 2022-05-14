@@ -27,6 +27,7 @@ def test_register_user(user):
     repo.find_one_by_name.assert_called_once_with(user['username'])
     assert result.username == user['username']
     assert result.uid == uid
+    assert result.todos == []
 
 
 def test_raises_exception_if_user_already_exists(user):

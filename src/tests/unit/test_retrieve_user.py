@@ -12,7 +12,8 @@ def user():
     return {
         'uid': 'test',
         'username': 'test',
-        'password': 'test'
+        'password': 'test',
+        'todos': []
     }
 
 
@@ -27,6 +28,7 @@ def test_retrieve_user(user):
     assert result.user.username == user['username']
     assert result.user.password == user['password']
     assert result.user.uid == user['uid']
+    assert result.user.todos == user['todos']
 
 
 def test_raises_exception_if_user_not_found(user):
