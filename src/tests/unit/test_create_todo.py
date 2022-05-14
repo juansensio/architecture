@@ -3,7 +3,6 @@ from unittest import mock
 import uuid
 
 from src.application.todo.CreateTodo import CreateTodo
-from src.domain.todo.todo import Todo
 from src.domain.user.errors import UserNotFoundError
 
 

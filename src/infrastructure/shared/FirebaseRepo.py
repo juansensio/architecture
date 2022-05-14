@@ -34,3 +34,6 @@ class FirebaseRepo():
         return self.db.collection(collection).document(document).update({
             field: firestore.ArrayUnion([item])
         })
+
+    def retrieve(self, collection, document):
+        return self.db.collection(collection).document(document).get().to_dict()

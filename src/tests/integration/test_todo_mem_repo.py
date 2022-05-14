@@ -36,3 +36,13 @@ def test_todo_persists(todo_dicts, todo):
     assert repo.data[0] == todo_dicts[0]
     assert repo.data[1] == todo_dicts[1]
     assert repo.data[2] == todo
+
+
+def test_todo_retrieve(todo_dicts):
+    repo = TodoMemRepo(todo_dicts)
+    data = repo.retrieve(todo_dicts[0]['id'])
+    assert data == todo_dicts[0]
+    data = repo.retrieve(todo_dicts[1]['id'])
+    assert data == todo_dicts[1]
+    data = repo.retrieve('123')
+    assert data == None

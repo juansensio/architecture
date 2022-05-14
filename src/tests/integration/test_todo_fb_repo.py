@@ -27,12 +27,11 @@ todos_dicts = [
 def db():
     # import warnings
     # warnings.filterwarnings("ignore", category=DeprecationWarning)
-
     db = init_db(name, creds='./infrastructure/shared/firebase.json')
     for d in todos_dicts:
         doc = db.collection(collection).document()
+        d['id'] = doc.id
         doc.set(d)
-        d['uid'] = doc.id
     yield db
     docs = db.collection(collection).stream()
     for doc in docs:
@@ -54,26 +53,11 @@ def test_todo_generate_id(db):
     assert repo.generate_id() != None
 
 
-# def test_user_find_one_by_name(db, user):
-#     repo = UserFirebaseRepo(name, collection)
-#     assert repo.find_one_by_name(user['username']) == None
-#     print(repo.find_one_by_name(user_dicts[0]['username']))
-#     # assert repo.find_one_by_name(
-#     #     user_dicts[0]['username']) == User(**user_dicts[0])
-
-
-# def test_user_persists(db, user):
-#     repo = UserFirebaseRepo(name, collection)
-#     repo.persist(user)
-#     assert len(list(db.collection(collection).get())) == 3
-#     assert len(list(db.collection(collection).where(
-#         'username', '==', user['username']).get())) == 1
-
-
-# def test_add_todo(db, todo):
-#     repo = UserFirebaseRepo(name, collection)
-#     uid = user_dicts[0]['uid']
-#     repo.add_todo(uid, todo['id'])
-#     user_data = db.collection(collection).document(uid).get().to_dict()
-#     assert len(user_data['todos']) == 1
-#     assert user_data['todos'][0] == todo['id']
+def test_todo_retrieve(db):
+    repo = TodoFirebaseRepo(name, collection)
+    data = repo.retrieve(todos_dicts[0]['id'])
+    assert data == todos_dicts[0]
+    data = repo.retrieve(todos_dicts[1]['id'])
+    assert data == todos_dicts[1]
+    data = repo.retrieve('123')
+    assert data == None

@@ -33,8 +33,8 @@ def db():
     db = init_db(name, creds='./infrastructure/shared/firebase.json')
     for d in user_dicts:
         doc = db.collection(collection).document()
-        doc.set(d)
         d['uid'] = doc.id
+        doc.set(d)
     yield db
     docs = db.collection(collection).stream()
     for doc in docs:
@@ -80,6 +80,14 @@ def test_user_persists(db, user):
     assert len(list(db.collection(collection).get())) == 3
     assert len(list(db.collection(collection).where(
         'username', '==', user['username']).get())) == 1
+
+
+def test_user_retrieve(db):
+    repo = UserFirebaseRepo(name, collection)
+    data = repo.retrieve(user_dicts[0]['uid'])
+    assert data == user_dicts[0]
+    data = repo.retrieve('123')
+    assert data == None
 
 
 def test_add_todo(db, todo):

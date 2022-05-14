@@ -16,3 +16,6 @@ class UserFirebaseRepo(FirebaseRepo):
 
     def add_todo(self, uid, todo_id):
         return super().add_item(self.collection, uid, 'todos', todo_id)
+
+    def retrieve(self, id):
+        return super().retrieve(self.collection, id)

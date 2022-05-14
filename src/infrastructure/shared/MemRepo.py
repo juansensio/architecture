@@ -20,3 +20,6 @@ class MemRepo():
 
     def exists(self, name, field='uid'):
         return self.find_one_by_name(name, field) != None
+
+    def retrieve(self, id):
+        return self.find_one_by_name('id', id)
