@@ -9,6 +9,7 @@ class DeleteTodo():
 
     class Inputs(BaseModel):
         id: str
+        uid: str
 
     class Outputs(BaseModel):
         message: str
@@ -17,5 +18,5 @@ class DeleteTodo():
         if not self.repo.exists(inputs.id):
             raise TodoNotFoundError()
         self.repo.delete(inputs.id)
-        self.user_repo.remove_todo(inputs.id)
+        self.user_repo.remove_todo(inputs.uid, inputs.id)
         return self.Outputs(message="todo deleted")

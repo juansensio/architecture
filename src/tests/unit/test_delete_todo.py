@@ -26,11 +26,11 @@ def test_delete_todo(todos):
     user_repo = mock.Mock()
     todo = todos[0]
     delete_todo = DeleteTodo(repo, user_repo)
-    inputs = delete_todo.Inputs(id=todo['id'])
+    inputs = delete_todo.Inputs(uid=todo['uid'], id=todo['id'])
     result = delete_todo(inputs)
     repo.exists.assert_called_once_with(todo['id'])
     repo.delete.assert_called_once_with(todo['id'])
-    user_repo.remove_todo.assert_called_once_with(todo['id'])
+    user_repo.remove_todo.assert_called_once_with(todo['uid'], todo['id'])
     assert result.message == 'todo deleted'
 
 
@@ -39,6 +39,6 @@ def test_should_fail_if_todo_does_not_exist(todos):
     user_repo = mock.Mock()
     repo.exists.return_value = False
     delete_todo = DeleteTodo(repo, user_repo)
-    inputs = delete_todo.Inputs(id='invalid')
+    inputs = delete_todo.Inputs(uid='123', id='invalid')
     with pytest.raises(TodoNotFoundError):
         delete_todo(inputs)
