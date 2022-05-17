@@ -13,7 +13,9 @@ user_dicts = [
         'uid': str(uuid.uuid4()),
         'username': 'test_user',
         'password': 'test_password',
-        'todos': [],
+        'todos': [
+            '123'
+        ],
 
     },
     {
@@ -51,7 +53,7 @@ def user():
     }
 
 
-@pytest.fixture
+@ pytest.fixture
 def todo():
     return {
         'uid': str(uuid.uuid4()),
@@ -95,5 +97,18 @@ def test_add_todo(db, todo):
     uid = user_dicts[0]['uid']
     repo.add_todo(uid, todo['id'])
     user_data = db.collection(collection).document(uid).get().to_dict()
+    assert len(user_data['todos']) == 2
+    assert todo['id'] in user_data['todos']
+
+
+def test_remove_todo(db):
+    uid = user_dicts[0]['uid']
+    user_data = db.collection(collection).document(uid).get().to_dict()
+    assert '123' in user_data['todos']
+    assert len(user_data['todos']) == 2
+    repo = UserFirebaseRepo(name, collection)
+    todo_id = '123'
+    repo.remove_todo(uid, todo_id)
+    user_data = db.collection(collection).document(uid).get().to_dict()
+    assert '123' not in user_data['todos']
     assert len(user_data['todos']) == 1
-    assert user_data['todos'][0] == todo['id']

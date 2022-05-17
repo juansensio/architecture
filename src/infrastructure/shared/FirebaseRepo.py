@@ -27,8 +27,8 @@ class FirebaseRepo():
             return None
         return docs[0].to_dict()
 
-    def persist(self, collection, data):
-        return self.db.collection(collection).document(data['id']).set(data)
+    def persist(self, collection, data, id_field='id'):
+        return self.db.collection(collection).document(data[id_field]).set(data)
 
     def add_item(self, collection, document, field, item):
         return self.db.collection(collection).document(document).update({

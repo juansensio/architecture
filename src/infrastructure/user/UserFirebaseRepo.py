@@ -12,7 +12,7 @@ class UserFirebaseRepo(FirebaseRepo):
         return User(**data) if data else None
 
     def persist(self, data):
-        return super().persist(self.collection, data['uid'], data)
+        return super().persist(self.collection, data, id_field='uid')
 
     def add_todo(self, uid, todo_id):
         return super().add_item(self.collection, uid, 'todos', todo_id)
