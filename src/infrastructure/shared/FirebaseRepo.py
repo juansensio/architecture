@@ -37,3 +37,6 @@ class FirebaseRepo():
 
     def retrieve(self, collection, document):
         return self.db.collection(collection).document(document).get().to_dict()
+
+    def update(self, data):
+        return self.db.collection(self.collection).document(data['id']).update(data)

@@ -23,3 +23,8 @@ class MemRepo():
 
     def retrieve(self, id):
         return self.find_one_by_name('id', id)
+
+    def update(self, data):
+        ix = [d['id'] for d in self.data].index(data['id'])
+        self.data[ix] = data
+        return data

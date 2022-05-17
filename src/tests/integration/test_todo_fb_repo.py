@@ -2,6 +2,7 @@ from src.infrastructure.todo.TodoFirebaseRepo import TodoFirebaseRepo
 from src.domain.todo.todo import Todo
 import pytest
 import uuid
+from copy import deepcopy
 
 from src.infrastructure.shared.FirebaseRepo import init_db
 
@@ -61,3 +62,12 @@ def test_todo_retrieve(db):
     assert data == todos_dicts[1]
     data = repo.retrieve('123')
     assert data == None
+
+
+def test_todo_update(db):
+    repo = TodoFirebaseRepo(name, collection)
+    new_todo = deepcopy(todos_dicts[0])
+    new_todo['content'] = 'new content'
+    repo.update(new_todo)
+    data = repo.retrieve(new_todo['id'])
+    assert data == new_todo

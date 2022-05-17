@@ -1,5 +1,6 @@
 import pytest
 import uuid
+from copy import deepcopy
 
 from src.infrastructure.todo.TodoMemRepo import TodoMemRepo
 
@@ -46,3 +47,16 @@ def test_todo_retrieve(todo_dicts):
     assert data == todo_dicts[1]
     data = repo.retrieve('123')
     assert data == None
+
+
+def test_todo_update(todo_dicts):
+    repo = TodoMemRepo(todo_dicts)
+    new_todo = deepcopy(todo_dicts[0])
+    new_todo['content'] = 'new content'
+    repo.update(new_todo)
+    print(repo.data, todo_dicts)
+    assert len(repo.data) == 2
+    assert repo.data[1] == todo_dicts[1]
+    assert repo.data[0]['uid'] == todo_dicts[0]['uid']
+    assert repo.data[0]['id'] == todo_dicts[0]['id']
+    assert repo.data[0]['content'] == 'new content'
