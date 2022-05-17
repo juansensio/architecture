@@ -28,3 +28,7 @@ class MemRepo():
         ix = [d['id'] for d in self.data].index(data['id'])
         self.data[ix] = data
         return data
+
+    def delete(self, id):
+        ix = [d['id'] for d in self.data].index(id)
+        self.data.pop(ix)

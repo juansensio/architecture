@@ -1,5 +1,4 @@
 from ..shared.FirebaseRepo import FirebaseRepo
-from ...domain.user.user import User
 
 
 class TodoFirebaseRepo(FirebaseRepo):
@@ -12,3 +11,9 @@ class TodoFirebaseRepo(FirebaseRepo):
 
     def retrieve(self, id):
         return super().retrieve(self.collection, id)
+
+    def update(self, data):
+        return super().update(self.collection, data)
+
+    def delete(self, id):
+        return super().delete(self.collection, id)

@@ -60,3 +60,11 @@ def test_todo_update(todo_dicts):
     assert repo.data[0]['uid'] == todo_dicts[0]['uid']
     assert repo.data[0]['id'] == todo_dicts[0]['id']
     assert repo.data[0]['content'] == 'new content'
+
+
+def test_delete_todo(todo_dicts):
+    old_dicts = deepcopy(todo_dicts)
+    repo = TodoMemRepo(todo_dicts)
+    repo.delete(todo_dicts[0]['id'])
+    assert len(repo.data) == 1
+    assert repo.data[0] == old_dicts[1]

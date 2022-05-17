@@ -19,3 +19,6 @@ class UserFirebaseRepo(FirebaseRepo):
 
     def retrieve(self, id):
         return super().retrieve(self.collection, id)
+
+    def remove_todo(self, uid, todo_id):
+        return super().remove_item(self.collection, uid, 'todos', todo_id)

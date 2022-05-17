@@ -27,8 +27,8 @@ class FirebaseRepo():
             return None
         return docs[0].to_dict()
 
-    def persist(self, collection, document, data):
-        return self.db.collection(collection).document(document).set(data)
+    def persist(self, collection, data):
+        return self.db.collection(collection).document(data['id']).set(data)
 
     def add_item(self, collection, document, field, item):
         return self.db.collection(collection).document(document).update({
@@ -38,5 +38,13 @@ class FirebaseRepo():
     def retrieve(self, collection, document):
         return self.db.collection(collection).document(document).get().to_dict()
 
-    def update(self, data):
-        return self.db.collection(self.collection).document(data['id']).update(data)
+    def update(self, collection, data):
+        return self.db.collection(collection).document(data['id']).update(data)
+
+    def delete(self, collection, id):
+        return self.db.collection(collection).document(id).delete()
+
+    def remove_item(self, collection, document, field, item):
+        return self.db.collection(collection).document(document).update({
+            field: firestore.ArrayRemove([item])
+        })

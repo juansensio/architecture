@@ -15,3 +15,9 @@ class UserMemRepo(MemRepo):
             if user['uid'] == uid:
                 user['todos'].append(todo_id)
                 break
+
+    def remove_todo(self, uid, todo_id):
+        for user in self.data:
+            if user['uid'] == uid:
+                user['todos'].remove(todo_id)
+                break

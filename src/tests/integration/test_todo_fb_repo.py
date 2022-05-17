@@ -71,3 +71,13 @@ def test_todo_update(db):
     repo.update(new_todo)
     data = repo.retrieve(new_todo['id'])
     assert data == new_todo
+
+
+def test_todo_delete(db):
+    assert len(list(db.collection(collection).stream())) == len(todos_dicts)
+    repo = TodoFirebaseRepo(name, collection)
+    repo.delete(todos_dicts[0]['id'])
+    data = repo.retrieve(todos_dicts[0]['id'])
+    assert data == None
+    assert len(list(db.collection(collection).stream())
+               ) == len(todos_dicts) - 1

@@ -11,7 +11,9 @@ def user_dicts():
             'uid': str(uuid.uuid4()),
             'username': 'test_user',
             'password': 'test_password',
-            'todos': [],
+            'todos': [
+                '123'
+            ],
         },
         {
             'uid': str(uuid.uuid4()),
@@ -63,8 +65,9 @@ def test_add_todo(user_dicts, todo):
     assert len(repo.data) == 2
     assert repo.data[0] == user_dicts[0]
     assert repo.data[1] == user_dicts[1]
-    assert len(repo.data[0]['todos']) == 1
-    assert repo.data[0]['todos'][0] == todo['id']
+    assert len(repo.data[0]['todos']) == 2
+    assert repo.data[0]['todos'][0] == '123'
+    assert repo.data[0]['todos'][1] == todo['id']
 
 
 def test_user_exists(user_dicts, user):
@@ -72,3 +75,10 @@ def test_user_exists(user_dicts, user):
     assert repo.exists(user_dicts[0]['uid']) == True
     assert repo.exists(user_dicts[1]['uid']) == True
     assert repo.exists(user['uid']) == False
+
+
+def test_remove_todo(user_dicts, user):
+    repo = UserMemRepo(user_dicts)
+    repo.remove_todo(user_dicts[0]['uid'], user_dicts[0]['todos'][0])
+    assert len(repo.data) == 2
+    assert len(repo.data[0]['todos']) == 0
