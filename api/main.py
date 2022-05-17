@@ -102,7 +102,7 @@ async def update_todo(id: str, body: UpdateTodoBody, uid: str = Depends(get_curr
 
 
 @app.delete("/todos/{id}")
-async def update_todo(id: str, uid: str = Depends(get_current_user)):
+async def delete_todo(id: str, uid: str = Depends(get_current_user)):
     try:
         repo = TodoRepository()
         user_repo = UserRepository()

@@ -2,6 +2,7 @@ from ...domain.todo.todo import Todo
 from pydantic import BaseModel
 from typing import List
 from ...domain.todo.errors import TodoNotFoundError
+from ...domain.user.errors import UserNotFoundError
 
 
 class RetrieveTodos():
@@ -16,9 +17,11 @@ class RetrieveTodos():
         todos: List[Todo]
 
     def __call__(self, inputs: Inputs) -> Outputs:
-        todo_ids = self.user_repo.retrieve(inputs.uid)['todos']
+        user_data = self.user_repo.retrieve(inputs.uid)
+        if not user_data:
+            raise UserNotFoundError()
         todos = []
-        for todo_id in todo_ids:
+        for todo_id in user_data.todos:
             if not self.repo.exists(todo_id):
                 raise TodoNotFoundError()
             data = self.repo.retrieve(todo_id)
