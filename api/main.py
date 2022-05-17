@@ -5,11 +5,11 @@ from pydantic import BaseModel
 from src.application.user.RegisterUser import RegisterUser
 from src.application.user.RetrieveUser import RetrieveUser
 from src.application.todo.CreateTodo import CreateTodo
+from src.application.todo.RetrieveTodos import RetrieveTodos
 
 # from src.infrastructure.user.UserFirebaseRepo import UserFirebaseRepo as UserRepository
 from src.infrastructure.user.UserMemRepo import UserMemRepo as UserRepository
 from src.infrastructure.todo.TodoMemRepo import TodoMemRepo as TodoRepository
-from src.infrastructure.todo.RetrieveTodos import RetrieveTodos as RetrieveTodos
 
 app = FastAPI()
 
@@ -72,7 +72,8 @@ async def create_todo(body: CreateTodoBody, uid: str = Depends(get_current_user)
 # async def retrieve_todos(uid: str = Depends(get_current_user)):
 #     try:
 #         repo = TodoRepository()
-#         retrieve_todos = RetrieveTodos(repo)
+#         user_repo = UserRepository()
+#         retrieve_todos = RetrieveTodos(repo, user_repo)
 #         inputs = RetrieveTodos.Inputs(uid=uid)
 #         return retrieve_todos(inputs)
 #     except Exception as e:

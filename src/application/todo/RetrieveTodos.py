@@ -9,11 +9,14 @@ class RetrieveTodos():
         self.repo = repo
         self.user_repo = user_repo
 
+    class Inputs(BaseModel):
+        uid: str
+
     class Outputs(BaseModel):
         todos: List[Todo]
 
-    def __call__(self) -> Outputs:
-        todo_ids = self.user_repo.retrieve()['todos']
+    def __call__(self, inputs: Inputs) -> Outputs:
+        todo_ids = self.user_repo.retrieve(inputs.uid)['todos']
         todos = []
         for todo_id in todo_ids:
             if not self.repo.exists(todo_id):
