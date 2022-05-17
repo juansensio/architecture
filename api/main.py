@@ -9,6 +9,7 @@ from src.application.todo.CreateTodo import CreateTodo
 # from src.infrastructure.user.UserFirebaseRepo import UserFirebaseRepo as UserRepository
 from src.infrastructure.user.UserMemRepo import UserMemRepo as UserRepository
 from src.infrastructure.todo.TodoMemRepo import TodoMemRepo as TodoRepository
+from src.infrastructure.todo.RetrieveTodos import RetrieveTodos as RetrieveTodos
 
 app = FastAPI()
 
@@ -65,3 +66,14 @@ async def create_todo(body: CreateTodoBody, uid: str = Depends(get_current_user)
         return create_todo(inputs)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+# @app.get("/todos")
+# async def retrieve_todos(uid: str = Depends(get_current_user)):
+#     try:
+#         repo = TodoRepository()
+#         retrieve_todos = RetrieveTodos(repo)
+#         inputs = RetrieveTodos.Inputs(uid=uid)
+#         return retrieve_todos(inputs)
+#     except Exception as e:
+#         raise HTTPException(status_code=400, detail=str(e))

@@ -23,13 +23,15 @@ def todos():
 
 def test_retrieve_todos(todos):
     repo = mock.Mock()
+    user_repo = mock.Mock()
+    user_repo.retrieve.return_value = {'todos': [todo['id'] for todo in todos]}
     repo.retrieve.return_value = todos[0]
     repo.exists.return_value = True
-    todos_ids = [todo['id'] for todo in todos]
-    retrieve_todos = RetrieveTodos(repo)
-    inputs = RetrieveTodos.Inputs(ids=todos_ids)
-    result = retrieve_todos(inputs)
+    retrieve_todos = RetrieveTodos(repo, user_repo)
+    result = retrieve_todos()
     assert repo.retrieve.call_count == len(todos)
+    assert repo.exists.call_count == len(todos)
+    user_repo.retrieve.assert_called_once()
     assert len(result.todos) == len(todos)
     for todo in result.todos:
         assert todo == todos[0]
@@ -37,19 +39,20 @@ def test_retrieve_todos(todos):
 
 def test_should_fail_if_todo_does_not_exist(todos):
     repo = mock.Mock()
+    user_repo = mock.Mock()
+    user_repo.retrieve.return_value = {'todos': [todo['id'] for todo in todos]}
     repo.exists.return_value = False
-    retrieve_todos = RetrieveTodos(repo)
-    todos_ids = [todo['id'] for todo in todos]
-    inputs = RetrieveTodos.Inputs(ids=todos_ids)
+    retrieve_todos = RetrieveTodos(repo, user_repo)
     with pytest.raises(TodoNotFoundError):
-        retrieve_todos(inputs)
+        retrieve_todos()
 
 
 def test_should_return_empty_list_if_no_ids():
     repo = mock.Mock()
-    retrieve_todos = RetrieveTodos(repo)
-    inputs = RetrieveTodos.Inputs(ids=[])
-    result = retrieve_todos(inputs)
+    user_repo = mock.Mock()
+    user_repo.retrieve.return_value = {'todos': []}
+    retrieve_todos = RetrieveTodos(repo, user_repo)
+    result = retrieve_todos()
     assert repo.retrieve.call_count == 0
     assert len(result.todos) == 0
     assert result.todos == []
