@@ -15,21 +15,33 @@ $ todo-cli [OPTIONS] COMMAND [ARGS]...
 **Commands**:
 
 * `login`: Login to the TODO app with your email and...
+* `logout`: Logout from the TODO app.
 * `register`: Register to the TODO app with your email and...
 
 ## `todo-cli login`
 
 Login to the TODO app with your email and password.
+Your credentials are stored until your run the logout command.
 
 **Usage**:
 
 ```console
-$ todo-cli login [OPTIONS] NAME
+$ todo-cli login [OPTIONS]
 ```
 
-**Arguments**:
+**Options**:
 
-* `NAME`: [required]
+* `--help`: Show this message and exit.
+
+## `todo-cli logout`
+
+Logout from the TODO app.
+
+**Usage**:
+
+```console
+$ todo-cli logout [OPTIONS]
+```
 
 **Options**:
 
@@ -42,12 +54,12 @@ Register to the TODO app with your email and password.
 **Usage**:
 
 ```console
-$ todo-cli register [OPTIONS] NAME
+$ todo-cli register [OPTIONS] EMAIL
 ```
 
 **Arguments**:
 
-* `NAME`: [required]
+* `EMAIL`: The email of the user  [required]
 
 **Options**:
 
