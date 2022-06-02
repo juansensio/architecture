@@ -74,6 +74,7 @@ Each release will be developed following TDD principles and documented.
   - v3.1: ui user registration
   - v3.2: ui user login
   - v3.3: ui todos CRUD
+- v4: lib
 
 ## Project structure
 
