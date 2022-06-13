@@ -9,7 +9,6 @@ from src.application.todo.RetrieveTodos import RetrieveTodos
 from src.application.todo.UpdateTodo import UpdateTodo
 from src.application.todo.DeleteTodo import DeleteTodo
 
-# from src.infrastructure.user.UserFirebaseRepo import UserFirebaseRepo as UserRepository
 from src.infrastructure.user.UserMemRepo import UserMemRepo as UserRepository
 from src.infrastructure.todo.TodoMemRepo import TodoMemRepo as TodoRepository
 

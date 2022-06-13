@@ -21,7 +21,7 @@ class RetrieveTodos():
         if not user_data:
             raise UserNotFoundError()
         todos = []
-        for todo_id in user_data.todos:
+        for todo_id in user_data['todos']:
             if not self.repo.exists(todo_id):
                 raise TodoNotFoundError()
             data = self.repo.retrieve(todo_id)

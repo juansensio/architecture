@@ -26,6 +26,7 @@ def test_register_user(user):
     # user login
     response = client.post(
         '/token', data={'username': user['username'], 'password': user['password']})
+    print(response.json())
     assert response.status_code == 200
     assert response.json()['access_token'] == uid
     # should fail if user exists

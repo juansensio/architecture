@@ -19,7 +19,7 @@ def user():
 
 def test_retrieve_user(user):
     repo = mock.Mock()
-    repo.find_one_by_name.return_value = User(**user)
+    repo.find_one_by_name.return_value = user
     retrieve_user = RetrieveUser(repo)
     inputs = RetrieveUser.Inputs(
         username=user['username'], password=user['password'])
@@ -44,7 +44,7 @@ def test_raises_exception_if_user_not_found(user):
 
 def test_raises_exception_if_invalid_password(user):
     repo = mock.Mock()
-    repo.find_one_by_name.return_value = User(**user)
+    repo.find_one_by_name.return_value = user
     retrieve_user = RetrieveUser(repo)
     inputs = RetrieveUser.Inputs(
         username=user['username'], password='invalid')

@@ -7,8 +7,7 @@ class UserMemRepo(MemRepo):
         self.data = data
 
     def find_one_by_name(self, name, field="username"):
-        data = super().find_one_by_name(name, field)
-        return User(**data) if data else None
+        return super().find_one_by_name(name, field)
 
     def add_todo(self, uid, todo_id):
         for user in self.data:

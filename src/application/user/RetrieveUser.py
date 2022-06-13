@@ -18,6 +18,6 @@ class RetrieveUser():
         user = self.repo.find_one_by_name(inputs.username)
         if not user:
             raise UserNotFoundError()
-        if user.password != inputs.password:
+        if user['password'] != inputs.password:
             raise InvalidCredentialsError()
         return self.Outputs(user=user)
